@@ -5,6 +5,7 @@ import 'package:mobile_frontend/views/components/background.dart';
 import 'package:mobile_frontend/views/components/rounded_button.dart';
 import 'package:mobile_frontend/views/components/rounded_input_field.dart';
 import 'package:mobile_frontend/views/components/rounded_password_field.dart';
+import 'package:mobile_frontend/views/screens/main/main_screen.dart';
 import 'package:mobile_frontend/views/screens/signup/sign_up_screen.dart';
 
 class Body extends StatelessWidget {
@@ -32,7 +33,10 @@ class Body extends StatelessWidget {
           ),
           RoundedButton(
             text: 'LOGIN',
-            onPressed: () {},
+            onPressed: () {
+              // TODO Implement authentication check
+              Navigator.pushNamed(context, MainScreen.id);
+            },
           ),
           SizedBox(height: size.height * 0.03),
           AlreadyHaveAnAccountCheck(
