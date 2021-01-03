@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mobile_frontend/views/components/rounded_button.dart';
-import 'package:mobile_frontend/views/constants.dart';
-import 'package:mobile_frontend/views/screens/login/login_screen.dart';
-import 'package:mobile_frontend/views/screens/signup/signup_screen.dart';
+import 'package:mobile_frontend/views/components/already_have_an_account_check.dart';
 import 'package:mobile_frontend/views/components/background.dart';
+import 'package:mobile_frontend/views/components/rounded_button.dart';
+import 'package:mobile_frontend/views/components/rounded_input_field.dart';
+import 'package:mobile_frontend/views/components/rounded_password_field.dart';
+import 'package:mobile_frontend/views/screens/signup/signup_screen.dart';
 
 class Body extends StatelessWidget {
   @override
@@ -15,29 +16,26 @@ class Body extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'WELCOME TO PLAN MY LUNCH',
+            'LOGIN',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          SizedBox(
-            height: size.height * 0.02,
-          ),
           SvgPicture.asset(
-            'assets/icons/welcome.svg',
-            height: size.height * 0.45,
+            'assets/icons/login.svg',
+            height: size.height * 0.35,
           ),
-          SizedBox(
-            height: size.height * 0.02,
+          RoundedInputField(
+            hintText: 'Your Email',
+            onChanged: (value) {},
+          ),
+          RoundedPasswordField(
+            onChanged: (value) {},
           ),
           RoundedButton(
             text: 'LOGIN',
-            onPressed: () {
-              Navigator.pushNamed(context, LoginScreen.id);
-            },
+            onPressed: () {},
           ),
-          RoundedButton(
-            text: 'SIGNUP',
-            color: kPrimaryLightColor,
-            textColor: Colors.black,
+          SizedBox(height: size.height * 0.03),
+          AlreadyHaveAnAccountCheck(
             onPressed: () {
               Navigator.pushNamed(context, SignupScreen.id);
             },
