@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mobile_frontend/views/components/background.dart';
-import 'package:mobile_frontend/views/components/rounded_button.dart';
-import 'package:mobile_frontend/views/constants.dart';
+import 'package:mobile_frontend/views/screens/main/components/leftover_selected_info.dart';
 import 'package:mobile_frontend/views/screens/main/components/no_plan_selected_info.dart';
 import 'package:table_calendar/table_calendar.dart';
+
+enum Selection {
+  none,
+  leftover,
+}
 
 class Body extends StatefulWidget {
   @override
@@ -13,6 +15,15 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   CalendarController _calendarController;
+  Selection selectedPlan = Selection.leftover;
+
+  Widget getInfo() {
+    if (selectedPlan == Selection.none) {
+      return NoPlanSelectedInfo();
+    } else {
+      return LeftoverSelectedInfo();
+    }
+  }
 
   @override
   void initState() {
@@ -76,7 +87,7 @@ class _BodyState extends State<Body> {
                   topRight: Radius.circular(40.0)),
               color: Colors.white,
             ),
-            child: NoPlanSelectedInfo(),
+            child: getInfo(),
           ),
         ),
       ],
