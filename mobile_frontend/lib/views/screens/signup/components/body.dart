@@ -5,7 +5,9 @@ import 'package:mobile_frontend/views/components/background.dart';
 import 'package:mobile_frontend/views/components/rounded_button.dart';
 import 'package:mobile_frontend/views/components/rounded_input_field.dart';
 import 'package:mobile_frontend/views/components/rounded_password_field.dart';
-import 'package:mobile_frontend/views/screens/signup/sign_up_screen.dart';
+import 'package:mobile_frontend/views/screens/login/login_screen.dart';
+import 'package:mobile_frontend/views/screens/signup/components/or_divider.dart';
+import 'package:mobile_frontend/views/screens/signup/components/social_icon.dart';
 
 class Body extends StatelessWidget {
   @override
@@ -16,11 +18,12 @@ class Body extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'LOGIN',
+            'SIGN UP',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
+          SizedBox(height: size.height * 0.03),
           SvgPicture.asset(
-            'assets/icons/login.svg',
+            'assets/icons/signup.svg',
             height: size.height * 0.35,
           ),
           RoundedInputField(
@@ -31,15 +34,30 @@ class Body extends StatelessWidget {
             onChanged: (value) {},
           ),
           RoundedButton(
-            text: 'LOGIN',
+            text: 'SIGN UP',
             onPressed: () {},
           ),
           SizedBox(height: size.height * 0.03),
           AlreadyHaveAnAccountCheck(
+            login: false,
             onPressed: () {
-              Navigator.pushNamed(context, SignUpScreen.id);
+              Navigator.pushNamed(context, LoginScreen.id);
             },
           ),
+          OrDivider(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SocialIcon(
+                iconSrc: 'assets/icons/facebook.svg',
+                onPressed: () {},
+              ),
+              SocialIcon(
+                iconSrc: 'assets/icons/google-plus.svg',
+                onPressed: () {},
+              ),
+            ],
+          )
         ],
       ),
     );

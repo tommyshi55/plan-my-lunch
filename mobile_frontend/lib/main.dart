@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_frontend/views/constants.dart';
 import 'package:mobile_frontend/views/screens/login/login_screen.dart';
-import 'package:mobile_frontend/views/screens/signup/signup_screen.dart';
+import 'package:mobile_frontend/views/screens/signup/sign_up_screen.dart';
 import 'package:mobile_frontend/views/screens/welcome/welcome_screen.dart';
 
 void main() {
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       routes: {
         WelcomeScreen.id: (context) => WelcomeScreen(),
         LoginScreen.id: (context) => LoginScreen(),
-        SignupScreen.id: (context) => SignupScreen(),
+        SignUpScreen.id: (context) => SignUpScreen(),
       },
     );
   }
