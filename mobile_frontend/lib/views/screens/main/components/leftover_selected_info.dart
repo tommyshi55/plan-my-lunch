@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mobile_frontend/business_logic/models/selected_plan.dart';
+import 'package:mobile_frontend/business_logic/models/selection.dart';
 import 'package:mobile_frontend/views/components/rounded_button.dart';
 import 'package:mobile_frontend/views/constants.dart';
+import 'package:provider/provider.dart';
 
 class LeftoverSelectedInfo extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -26,7 +29,10 @@ class LeftoverSelectedInfo extends StatelessWidget {
         ),
         RoundedButton(
           text: 'CANCEL AND EDIT THE PLAN',
-          onPressed: () {},
+          onPressed: () {
+            Provider.of<SelectedPlan>(context, listen: false)
+                .updateSelectedPlan(Selection.none);
+          },
         ),
       ],
     );

@@ -1,0 +1,4 @@
+enum Selection {
+  none,
+  leftover,
+}

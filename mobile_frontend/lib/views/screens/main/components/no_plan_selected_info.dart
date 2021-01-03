@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mobile_frontend/business_logic/models/selected_plan.dart';
+import 'package:mobile_frontend/business_logic/models/selection.dart';
 import 'package:mobile_frontend/views/components/rounded_button.dart';
 import 'package:mobile_frontend/views/constants.dart';
+import 'package:provider/provider.dart';
 
 class NoPlanSelectedInfo extends StatelessWidget {
   const NoPlanSelectedInfo({
@@ -39,7 +42,10 @@ class NoPlanSelectedInfo extends StatelessWidget {
           text: 'LEFTOVER FROM DINNER',
           color: kPrimaryLightColor,
           textColor: Colors.black,
-          onPressed: () {},
+          onPressed: () {
+            Provider.of<SelectedPlan>(context, listen: false)
+                .updateSelectedPlan(Selection.leftover);
+          },
         ),
       ],
     );
