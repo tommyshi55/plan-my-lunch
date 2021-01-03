@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mobile_frontend/views/components/background.dart';
+import 'package:mobile_frontend/views/components/rounded_button.dart';
+import 'package:mobile_frontend/views/constants.dart';
+import 'package:mobile_frontend/views/screens/main/components/no_plan_selected_info.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class Body extends StatefulWidget {
@@ -24,6 +29,7 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         TableCalendar(
           calendarController: _calendarController,
@@ -70,6 +76,7 @@ class _BodyState extends State<Body> {
                   topRight: Radius.circular(40.0)),
               color: Colors.white,
             ),
+            child: NoPlanSelectedInfo(),
           ),
         ),
       ],
