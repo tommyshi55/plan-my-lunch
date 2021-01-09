@@ -9,7 +9,6 @@ class SearchRestaurantScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Restaurant Search'),
-        automaticallyImplyLeading: false,
       ),
       body: Body(),
     );
