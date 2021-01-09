@@ -4,6 +4,7 @@ import 'package:mobile_frontend/business_logic/models/selected_plan.dart';
 import 'package:mobile_frontend/business_logic/models/selection.dart';
 import 'package:mobile_frontend/views/components/rounded_button.dart';
 import 'package:mobile_frontend/views/constants.dart';
+import 'package:mobile_frontend/views/screens/search_restaurants/search_restaurant_screen.dart';
 import 'package:provider/provider.dart';
 
 class NoPlanSelectedInfo extends StatelessWidget {
@@ -36,7 +37,9 @@ class NoPlanSelectedInfo extends StatelessWidget {
         ),
         RoundedButton(
           text: 'SEARCH RESTAURANT',
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, SearchRestaurantScreen.id);
+          },
         ),
         RoundedButton(
           text: 'LEFTOVER FROM DINNER',
