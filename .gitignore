@@ -1,6 +1,15 @@
 
-# Created by https://www.toptal.com/developers/gitignore/api/macos,androidstudio,flutter
-# Edit at https://www.toptal.com/developers/gitignore?templates=macos,androidstudio,flutter
+# Created by https://www.toptal.com/developers/gitignore/api/macos,androidstudio,flutter,firebase
+# Edit at https://www.toptal.com/developers/gitignore?templates=macos,androidstudio,flutter,firebase
+
+### Firebase ###
+.idea
+**/node_modules/*
+**/.firebaserc
+
+### Firebase Patch ###
+.runtimeconfig.json
+.firebase/
 
 ### Flutter ###
 # Flutter/Dart/Pub related
@@ -231,4 +240,4 @@ fabric.properties
 
 !/gradle/wrapper/gradle-wrapper.jar
 
-# End of https://www.toptal.com/developers/gitignore/api/macos,androidstudio,flutter
+# End of https://www.toptal.com/developers/gitignore/api/macos,androidstudio,flutter,firebase
