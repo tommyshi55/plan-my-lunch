@@ -1,9 +1,22 @@
 const functions = require("firebase-functions");
+const axios = require("axios");
+require("dotenv").config();
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+const baseUrl = "https://developers.zomato.com/api/v2.1";
+
+exports.searchRestaurants = functions.https.onRequest((req, res) => {
+  // search restaurant via zomato api
+  axios.get(`${baseUrl}/search`, {
+    headers: {'user-key': process.env.ZOMATO_API_KEY}
+  })
+  .then((response) => {
+    res.status(200).json({
+      message: response.data
+    });
+  })
+  .catch((err) => {
+    res.status(500).json({
+      message: 'Error fetching Zomato API'
+    });
+  });
+});
