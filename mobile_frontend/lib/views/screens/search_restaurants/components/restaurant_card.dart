@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:mobile_frontend/business_logic/models/restaurant.dart';
 
 class RestaurantCard extends StatelessWidget {
+  final Restaurant restaurant;
+
   const RestaurantCard({
-    Key key,
+    Key key, this.restaurant,
   }) : super(key: key);
 
   @override
@@ -15,7 +18,19 @@ class RestaurantCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Container(
+          restaurant.thumbnail != null && restaurant.thumbnail.isNotEmpty
+              ? Ink(
+            height: 100,
+            width: 100,
+            decoration: BoxDecoration(
+              color: Colors.blueGrey,
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: NetworkImage(restaurant.thumbnail),
+              ),
+            ),
+          )
+              : Container(
             height: 100,
             width: 100,
             color: Colors.blueGrey,
@@ -32,7 +47,7 @@ class RestaurantCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'restaurant.name',
+                    restaurant.name,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 15,
@@ -48,12 +63,12 @@ class RestaurantCard extends StatelessWidget {
                         size: 15,
                       ),
                       SizedBox(width: 5),
-                      Text('restaurant.locality'),
+                      Text(restaurant.locality),
                     ],
                   ),
                   SizedBox(height: 5),
                   RatingBarIndicator(
-                    rating: 4.5,
+                    rating: restaurant.rating,
                     itemBuilder: (_, __) {
                       return Icon(
                         Icons.star,

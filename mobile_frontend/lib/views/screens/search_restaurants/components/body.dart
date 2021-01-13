@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_frontend/business_logic/services/restaurant_service.dart';
 import 'package:mobile_frontend/views/components/rounded_button.dart';
 import 'package:mobile_frontend/views/constants.dart';
 import 'package:mobile_frontend/views/screens/search_restaurants/components/restaurant_card.dart';
+
+import '../../../constants.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -9,6 +12,8 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  bool searched = false;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -35,19 +40,52 @@ class _BodyState extends State<Body> {
           ),
           RoundedButton(
             text: 'Search',
-            onPressed: () {},
+            onPressed: () {
+              setState(() {
+                searched = true;
+              });
+            },
             width: size.width * 0.95,
             verticalMargin: 0,
           ),
-          Expanded(
-            child: ListView(
-              children: [
-                RestaurantCard(),
-                RestaurantCard(),
-                RestaurantCard(),
-              ],
-            ),
-          ),
+          searched
+            ? FutureBuilder(
+              future: RestaurantService().searchRestaurants(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Expanded(
+                      child: ListView(
+                        children: snapshot.data.map<Widget>((restaurant) => RestaurantCard(restaurant: restaurant)).toList(),
+                      ),
+                    );
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(kPrimaryColor),
+                    ),
+                  );
+                },
+              )
+            : Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.search,
+                      color: Colors.black12,
+                      size: 150,
+                    ),
+                    Text(
+                      'No results to display',
+                      style: TextStyle(
+                        color: Colors.black12,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
         ],
       ),
     );
@@ -56,23 +94,4 @@ class _BodyState extends State<Body> {
 
 
 
-// Expanded(
-//   child: Column(
-//     mainAxisAlignment: MainAxisAlignment.center,
-//     children: [
-//       Icon(
-//         Icons.search,
-//         color: Colors.black12,
-//         size: 150,
-//       ),
-//       Text(
-//         'No results to display',
-//         style: TextStyle(
-//           color: Colors.black12,
-//           fontSize: 25,
-//           fontWeight: FontWeight.bold,
-//         ),
-//       ),
-//     ],
-//   ),
-// ),
+
