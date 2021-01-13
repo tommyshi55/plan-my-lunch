@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_frontend/views/components/rounded_button.dart';
 import 'package:mobile_frontend/views/constants.dart';
+import 'package:mobile_frontend/views/screens/search_restaurants/components/restaurant_card.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -39,22 +40,11 @@ class _BodyState extends State<Body> {
             verticalMargin: 0,
           ),
           Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: ListView(
               children: [
-                Icon(
-                  Icons.search,
-                  color: Colors.black12,
-                  size: 150,
-                ),
-                Text(
-                  'No results to display',
-                  style: TextStyle(
-                    color: Colors.black12,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                RestaurantCard(),
+                RestaurantCard(),
+                RestaurantCard(),
               ],
             ),
           ),
@@ -63,3 +53,26 @@ class _BodyState extends State<Body> {
     );
   }
 }
+
+
+
+// Expanded(
+//   child: Column(
+//     mainAxisAlignment: MainAxisAlignment.center,
+//     children: [
+//       Icon(
+//         Icons.search,
+//         color: Colors.black12,
+//         size: 150,
+//       ),
+//       Text(
+//         'No results to display',
+//         style: TextStyle(
+//           color: Colors.black12,
+//           fontSize: 25,
+//           fontWeight: FontWeight.bold,
+//         ),
+//       ),
+//     ],
+//   ),
+// ),
