@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_frontend/business_logic/models/restaurant.dart';
+import 'package:mobile_frontend/business_logic/models/selected_plan.dart';
+import 'package:mobile_frontend/business_logic/models/selection.dart';
 import 'package:mobile_frontend/views/components/rounded_button.dart';
 import 'package:mobile_frontend/views/constants.dart';
+import 'package:mobile_frontend/views/screens/main/main_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RestaurantActionModal extends StatelessWidget {
   final Restaurant restaurant;
 
-  const RestaurantActionModal({Key key, this.restaurant}) : super(key: key);
+  const RestaurantActionModal({
+    Key key,
+    this.restaurant,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +25,12 @@ class RestaurantActionModal extends StatelessWidget {
         children: [
           RoundedButton(
             text: 'Add to the plan',
-            onPressed: () {},
+            onPressed: () {
+              Provider.of<SelectedPlan>(context, listen: false)
+                  .updateSelectedPlan(Selection.restaurant,
+                      restaurant: restaurant);
+              Navigator.popUntil(context, ModalRoute.withName(MainScreen.id));
+            },
           ),
           RoundedButton(
             text: 'Open in Zomato',
