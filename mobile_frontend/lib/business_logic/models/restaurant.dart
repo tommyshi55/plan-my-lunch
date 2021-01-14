@@ -6,6 +6,8 @@ class Restaurant {
   final double rating;
   final int reviews;
   final String thumbnail;
+  final String url;
 
-  Restaurant(this.id, this.name, this.address, this.locality, this.rating, this.reviews, this.thumbnail);
+  Restaurant(this.id, this.name, this.address, this.locality, this.rating,
+      this.reviews, this.thumbnail, this.url);
 }

@@ -12,7 +12,7 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  bool searched = false;
+  String searchStatus;
 
   @override
   Widget build(BuildContext context) {
@@ -42,56 +42,61 @@ class _BodyState extends State<Body> {
             text: 'Search',
             onPressed: () {
               setState(() {
-                searched = true;
+                searchStatus = 'start';
               });
             },
             width: size.width * 0.95,
             verticalMargin: 0,
           ),
-          searched
-            ? FutureBuilder(
-              future: RestaurantService().searchRestaurants(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Expanded(
-                      child: ListView(
-                        children: snapshot.data.map<Widget>((restaurant) => RestaurantCard(restaurant: restaurant)).toList(),
-                      ),
-                    );
-                  }
-                  return Center(
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(kPrimaryColor),
-                    ),
-                  );
-                },
-              )
-            : Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.search,
-                      color: Colors.black12,
-                      size: 150,
-                    ),
-                    Text(
-                      'No results to display',
-                      style: TextStyle(
+          searchStatus != null
+              ? FutureBuilder(
+                  future: RestaurantService().searchRestaurants(),
+                  initialData: [],
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(kPrimaryColor),
+                        ),
+                      );
+                    }
+                    if (snapshot.hasData) {
+                      return Expanded(
+                        child: ListView(
+                          children: snapshot.data
+                              .map<Widget>((restaurant) =>
+                                  RestaurantCard(restaurant: restaurant))
+                              .toList(),
+                        ),
+                      );
+                    }
+
+                    return Text('Error');
+                  },
+                )
+              : Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.search,
                         color: Colors.black12,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
+                        size: 150,
                       ),
-                    ),
-                  ],
+                      Text(
+                        'No results to display',
+                        style: TextStyle(
+                          color: Colors.black12,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
         ],
       ),
     );
   }
 }
-
-
-
-
