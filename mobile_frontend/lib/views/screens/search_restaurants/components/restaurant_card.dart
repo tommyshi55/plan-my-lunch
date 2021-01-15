@@ -5,10 +5,12 @@ import 'package:mobile_frontend/views/screens/search_restaurants/components/rest
 
 class RestaurantCard extends StatelessWidget {
   final Restaurant restaurant;
+  final bool isInSearchResult;
 
   const RestaurantCard({
     Key key,
     this.restaurant,
+    this.isInSearchResult = true,
   }) : super(key: key);
 
   @override
@@ -24,6 +26,7 @@ class RestaurantCard extends StatelessWidget {
                     bottom: MediaQuery.of(context).viewInsets.bottom),
                 child: RestaurantActionModal(
                   restaurant: restaurant,
+                  displayAddButton: isInSearchResult,
                 ),
               );
             });

@@ -10,10 +10,12 @@ import 'package:url_launcher/url_launcher.dart';
 
 class RestaurantActionModal extends StatelessWidget {
   final Restaurant restaurant;
+  final bool displayAddButton;
 
   const RestaurantActionModal({
     Key key,
     this.restaurant,
+    this.displayAddButton,
   }) : super(key: key);
 
   @override
@@ -23,15 +25,21 @@ class RestaurantActionModal extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          RoundedButton(
-            text: 'Add to the plan',
-            onPressed: () {
-              Provider.of<SelectedPlan>(context, listen: false)
-                  .updateSelectedPlan(Selection.restaurant,
-                      restaurant: restaurant);
-              Navigator.popUntil(context, ModalRoute.withName(MainScreen.id));
-            },
-          ),
+          displayAddButton
+              ? RoundedButton(
+                  text: 'Add to the plan',
+                  onPressed: () {
+                    Provider.of<SelectedPlan>(context, listen: false)
+                        .updateSelectedPlan(Selection.restaurant,
+                            restaurant: restaurant);
+                    Navigator.popUntil(
+                        context, ModalRoute.withName(MainScreen.id));
+                  },
+                )
+              : SizedBox(
+                  width: 0,
+                  height: 0,
+                ),
           RoundedButton(
             text: 'Open in Zomato',
             onPressed: () async {
