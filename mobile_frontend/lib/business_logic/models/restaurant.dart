@@ -3,7 +3,7 @@ class Restaurant {
   final String name;
   final String address;
   final String locality;
-  final double rating;
+  final String rating;
   final int reviews;
   final String thumbnail;
   final String url;

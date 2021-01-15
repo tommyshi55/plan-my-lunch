@@ -8,6 +8,13 @@ exports.searchRestaurants = functions.https.onRequest((req, res) => {
   // search restaurant via zomato api
   const lat = req.query.lat;
   const lon = req.query.lon;
+  if (lat === undefined || lon === undefined) {
+    res.status(404).json({
+      success: false,
+      message: "Missing required params (lon/lat)"
+    });
+  }
+
   axios.get(`${baseUrl}/search`, {
     headers: {'user-key': process.env.ZOMATO_API_KEY},
     params: {
@@ -17,10 +24,9 @@ exports.searchRestaurants = functions.https.onRequest((req, res) => {
     }
   })
   .then((response) => {
-    // TODO: Format the data to be more meaningful 
     res.status(200).json({
       success: true,
-      response: response.data
+      restaurants: response.data.restaurants
     });
   })
   .catch((err) => {

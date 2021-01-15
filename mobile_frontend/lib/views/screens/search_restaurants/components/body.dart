@@ -14,8 +14,8 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   String searchStatus;
-  double lat = 36;
-  double lon = -120;
+  double lat = -36.864222;
+  double lon = 174.764055;
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +38,11 @@ class _BodyState extends State<Body> {
             text: 'Use Current Location',
             onPressed: () async {
               Position position = await Geolocator.getCurrentPosition(
-                  desiredAccuracy: LocationAccuracy.high);
+                  desiredAccuracy: LocationAccuracy.best);
               setState(() {
-                searchStatus = 'start';
                 lat = position.latitude;
                 lon = position.longitude;
+                searchStatus = 'start';
               });
             },
             width: size.width * 0.95,
@@ -61,14 +61,16 @@ class _BodyState extends State<Body> {
           ),
           searchStatus != null
               ? FutureBuilder(
-                  future: RestaurantService().searchRestaurants(37.0, -122.0),
+                  future: RestaurantService().searchRestaurants(lat, lon),
                   initialData: [],
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                        child: CircularProgressIndicator(
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(kPrimaryColor),
+                      return Expanded(
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(kPrimaryColor),
+                          ),
                         ),
                       );
                     }
@@ -83,7 +85,7 @@ class _BodyState extends State<Body> {
                       );
                     }
 
-                    return Text('Error');
+                    return Text(snapshot.error.toString());
                   },
                 )
               : Expanded(

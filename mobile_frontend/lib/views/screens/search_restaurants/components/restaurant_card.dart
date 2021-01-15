@@ -38,7 +38,9 @@ class RestaurantCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            restaurant.thumbnail != null && restaurant.thumbnail.isNotEmpty
+            restaurant.thumbnail != null &&
+                    restaurant.thumbnail.isNotEmpty &&
+                    restaurant.thumbnail != ''
                 ? Ink(
                     height: 100,
                     width: 100,
@@ -88,7 +90,7 @@ class RestaurantCard extends StatelessWidget {
                     ),
                     SizedBox(height: 5),
                     RatingBarIndicator(
-                      rating: restaurant.rating,
+                      rating: double.parse(restaurant.rating),
                       itemBuilder: (_, __) {
                         return Icon(
                           Icons.star,
