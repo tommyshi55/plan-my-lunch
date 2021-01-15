@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:mobile_frontend/business_logic/services/restaurant_service.dart';
 import 'package:mobile_frontend/views/components/rounded_button.dart';
 import 'package:mobile_frontend/views/constants.dart';
@@ -13,6 +14,8 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   String searchStatus;
+  double lat = 36;
+  double lon = -120;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +36,15 @@ class _BodyState extends State<Body> {
           ),
           RoundedButton(
             text: 'Use Current Location',
-            onPressed: () {},
+            onPressed: () async {
+              Position position = await Geolocator.getCurrentPosition(
+                  desiredAccuracy: LocationAccuracy.high);
+              setState(() {
+                searchStatus = 'start';
+                lat = position.latitude;
+                lon = position.longitude;
+              });
+            },
             width: size.width * 0.95,
             color: kPrimaryLightColor,
             textColor: Colors.black,
@@ -50,7 +61,7 @@ class _BodyState extends State<Body> {
           ),
           searchStatus != null
               ? FutureBuilder(
-                  future: RestaurantService().searchRestaurants(),
+                  future: RestaurantService().searchRestaurants(37.0, -122.0),
                   initialData: [],
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {

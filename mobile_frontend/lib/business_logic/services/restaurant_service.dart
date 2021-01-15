@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:mobile_frontend/business_logic/models/restaurant.dart';
 
 class RestaurantService {
-  Future<List> searchRestaurants() async {
+  Future<List> searchRestaurants(double lat, double lon) async {
     int randNum = Random().nextInt(10) + 1;
     List<Restaurant> restaurants = [];
 
