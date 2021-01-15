@@ -59,6 +59,9 @@ class _BodyState extends State<Body> {
             width: size.width * 0.95,
             verticalMargin: 0,
           ),
+          SizedBox(
+            height: size.height * 0.02,
+          ),
           searchStatus != null
               ? FutureBuilder(
                   future: RestaurantService().searchRestaurants(lat, lon),

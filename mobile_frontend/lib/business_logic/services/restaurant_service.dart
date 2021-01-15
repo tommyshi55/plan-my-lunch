@@ -9,8 +9,8 @@ class RestaurantService {
       'lat': lat.toString(),
       'lon': lon.toString(),
     };
-    var uri = Uri.http("localhost:5001",
-        "balmy-mark-301202/us-central1/searchRestaurants", queries);
+    var uri = Uri.https("us-central1-balmy-mark-301202.cloudfunctions.net",
+        "searchRestaurants", queries);
     var response = await http.get(uri);
 
     List<Restaurant> restaurants = [];

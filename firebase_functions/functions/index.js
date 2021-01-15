@@ -16,7 +16,7 @@ exports.searchRestaurants = functions.https.onRequest((req, res) => {
   }
 
   axios.get(`${baseUrl}/search`, {
-    headers: {'user-key': process.env.ZOMATO_API_KEY},
+    headers: {'user-key': functions.config().zomato.key},
     params: {
       lat: lat,
       lon: lon,
