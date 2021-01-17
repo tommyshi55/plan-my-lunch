@@ -39,7 +39,11 @@ class _BodyState extends State<Body> {
               );
               // This will change the text displayed in the TextField
               if (result != null) {
+                final locationDetails = await PlaceApiProvider(sessionToken)
+                    .getLocationDetailFromId(result.placeId);
                 setState(() {
+                  lat = double.parse(locationDetails.lat);
+                  lon = double.parse(locationDetails.lon);
                   _controller.text = result.description;
                 });
               }

@@ -4,9 +4,21 @@ import 'dart:io';
 import 'package:http/http.dart';
 import 'package:mobile_frontend/secret_keys.dart';
 
+class SearchLocation {
+  String lat;
+  String lon;
+
+  SearchLocation({
+    this.lat,
+    this.lon,
+  });
+}
+
 class Suggestion {
   final String placeId;
   final String description;
+  // final String lat;
+  // final String lon;
 
   Suggestion(this.placeId, this.description);
 
@@ -37,11 +49,35 @@ class PlaceApiProvider {
       if (result['status'] == 'OK') {
         // compose suggestions in a list
         return result['predictions']
-            .map<Suggestion>((p) => Suggestion(p['place_id'], p['description']))
+            .map<Suggestion>((p) => Suggestion(
+                  p['place_id'],
+                  p['description'],
+                ))
             .toList();
       }
       if (result['status'] == 'ZERO_RESULTS') {
         return [];
+      }
+      throw Exception(result['error_message']);
+    } else {
+      throw Exception('Failed to fetch suggestion');
+    }
+  }
+
+  Future<SearchLocation> getLocationDetailFromId(String placeId) async {
+    final request =
+        'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&fields=geometry&key=$apiKey&sessiontoken=$sessionToken';
+    final response = await client.get(request);
+
+    if (response.statusCode == 200) {
+      final result = json.decode(response.body);
+      if (result['status'] == 'OK') {
+        String lat =
+            result['result']['geometry']['location']['lat']?.toString();
+        String lon =
+            result['result']['geometry']['location']['lng']?.toString();
+        final place = SearchLocation(lat: lat, lon: lon);
+        return place;
       }
       throw Exception(result['error_message']);
     } else {
