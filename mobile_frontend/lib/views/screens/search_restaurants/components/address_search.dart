@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:mobile_frontend/business_logic/services/place_service.dart';
 
 class AddressSearch extends SearchDelegate<Suggestion> {
+  final sessionToken;
+  PlaceApiProvider apiClient;
+
+  AddressSearch(this.sessionToken) {
+    apiClient = PlaceApiProvider(sessionToken);
+  }
+
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -34,8 +41,10 @@ class AddressSearch extends SearchDelegate<Suggestion> {
   @override
   Widget buildSuggestions(BuildContext context) {
     return FutureBuilder(
-      // We will put the api call here
-      future: null,
+      future: query == ""
+          ? null
+          : apiClient.fetchSuggestions(
+              query, Localizations.localeOf(context).languageCode),
       builder: (context, snapshot) => query == ''
           ? Container(
               padding: EdgeInsets.all(16.0),
@@ -44,10 +53,10 @@ class AddressSearch extends SearchDelegate<Suggestion> {
           : snapshot.hasData
               ? ListView.builder(
                   itemBuilder: (context, index) => ListTile(
-                    // we will display the data returned from our future here
-                    title: Text(snapshot.data[index]),
+                    title:
+                        Text((snapshot.data[index] as Suggestion).description),
                     onTap: () {
-                      close(context, snapshot.data[index]);
+                      close(context, snapshot.data[index] as Suggestion);
                     },
                   ),
                   itemCount: snapshot.data.length,

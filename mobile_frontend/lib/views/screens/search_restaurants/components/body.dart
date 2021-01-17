@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:mobile_frontend/business_logic/services/place_service.dart';
 import 'package:mobile_frontend/business_logic/services/restaurant_service.dart';
 import 'package:mobile_frontend/views/components/rounded_button.dart';
 import 'package:mobile_frontend/views/constants.dart';
 import 'package:mobile_frontend/views/screens/search_restaurants/components/address_search.dart';
 import 'package:mobile_frontend/views/screens/search_restaurants/components/restaurant_card.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../constants.dart';
 
@@ -18,6 +20,8 @@ class _BodyState extends State<Body> {
   double lat = -36.864222;
   double lon = 174.764055;
 
+  final _controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -26,14 +30,26 @@ class _BodyState extends State<Body> {
       child: Column(
         children: [
           TextField(
+            controller: _controller,
             onTap: () async {
-              showSearch(
+              final sessionToken = Uuid().v4();
+              final Suggestion result = await showSearch(
                 context: context,
-                delegate: AddressSearch(),
+                delegate: AddressSearch(sessionToken),
               );
+              // This will change the text displayed in the TextField
+              if (result != null) {
+                setState(() {
+                  _controller.text = result.description;
+                });
+              }
             },
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.search),
+              suffixIcon: IconButton(
+                onPressed: () => _controller.clear(),
+                icon: Icon(Icons.clear),
+              ),
               hintText: 'Enter the address',
               border: OutlineInputBorder(),
               filled: true,

@@ -242,3 +242,4 @@ fabric.properties
 !/gradle/wrapper/gradle-wrapper.jar
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,androidstudio,flutter,firebase
+mobile_frontend/lib/secret_keys.dart
