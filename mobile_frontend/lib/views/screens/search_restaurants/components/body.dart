@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:mobile_frontend/business_logic/services/restaurant_service.dart';
 import 'package:mobile_frontend/views/components/rounded_button.dart';
 import 'package:mobile_frontend/views/constants.dart';
+import 'package:mobile_frontend/views/screens/search_restaurants/components/address_search.dart';
 import 'package:mobile_frontend/views/screens/search_restaurants/components/restaurant_card.dart';
 
 import '../../../constants.dart';
@@ -25,7 +26,12 @@ class _BodyState extends State<Body> {
       child: Column(
         children: [
           TextField(
-            onTap: () async {},
+            onTap: () async {
+              showSearch(
+                context: context,
+                delegate: AddressSearch(),
+              );
+            },
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.search),
               hintText: 'Enter the address',
