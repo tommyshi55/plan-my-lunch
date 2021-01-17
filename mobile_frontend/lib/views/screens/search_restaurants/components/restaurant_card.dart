@@ -77,7 +77,7 @@ class RestaurantCard extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 7),
-                    Row(
+                    Wrap(
                       children: [
                         Icon(
                           Icons.location_on,
