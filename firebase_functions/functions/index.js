@@ -2,6 +2,9 @@ const functions = require("firebase-functions");
 const axios = require("axios");
 require("dotenv").config();
 
+const admin = require('firebase-admin');
+admin.initializeApp();
+
 const baseUrl = "https://developers.zomato.com/api/v2.1";
 
 exports.searchRestaurants = functions.https.onRequest((req, res) => {
@@ -36,4 +39,13 @@ exports.searchRestaurants = functions.https.onRequest((req, res) => {
       message: 'Error fetching Zomato API'
     });
   });
+});
+
+
+exports.setupUserDB = functions.auth.user().onCreate((user) => {
+  return admin
+    .firestore()
+    .collection('users')
+    .doc(user.uid)
+    .set({'email': user.email});
 });
