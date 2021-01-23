@@ -41,6 +41,59 @@ exports.searchRestaurants = functions.https.onRequest((req, res) => {
   });
 });
 
+exports.plans = functions.https.onRequest((req, res) => {
+  if (req.method === 'GET') {
+    const userId = req.body.id;
+    if (userId !== undefined) {
+      admin
+        .firestore()
+        .collection('users')
+        .doc(userId)
+        .get()
+        .then((snapshot) => {
+          let planData = snapshot.data();
+          if (planData.email != req.query.email) {
+            res.status(403).json({success: false});
+            return;
+          }
+          delete planData.email;
+          res.status(200).json({success: true, ...planData});
+        })
+      
+      return;
+    }
+
+    res.status(401).json({success: false});
+    return;
+  } else if (req.method === 'POST') {
+    const userId = req.body.id;
+    if (userId !== undefined) {
+      let addedPlan = {
+        planType: req.body.planType,
+        planDetail: req.body.planDetail
+      };
+      const date = req.body.date;
+
+      admin
+        .firestore()
+        .collection('users')
+        .doc(userId)
+        .update({
+          [date]: addedPlan
+        })
+        .then((result) => {
+          res.status(200).json({success: true});
+        });
+
+      return;
+    }
+
+    res.status(401).json({success: false});
+    return;
+  }
+
+  res.status(405).json({success: false});
+});
 
 exports.setupUserDB = functions.auth.user().onCreate((user) => {
   return admin
