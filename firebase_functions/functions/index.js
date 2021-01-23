@@ -57,7 +57,12 @@ exports.plans = functions.https.onRequest((req, res) => {
             return;
           }
           delete planData.email;
-          res.status(200).json({success: true, ...planData});
+          if (req.query.date === undefined) {
+            res.status(200).json({success: true, ...planData});
+            return;
+          }
+          const planOnDate = planData[req.query.date];
+          res.status(200).json({success: true, ...planOnDate});
         })
       
       return;
