@@ -43,15 +43,14 @@ exports.searchRestaurants = functions.https.onRequest((req, res) => {
 
 exports.plans = functions.https.onRequest((req, res) => {
   if (req.method === 'GET') {
-    const userId = req.body.id;
-    if (userId !== undefined) {
+    if (req.headers.authorization) {
       admin
         .firestore()
         .collection('users')
-        .doc(userId)
+        .where('email', '==', req.query.email)
         .get()
         .then((snapshot) => {
-          let planData = snapshot.data();
+          let planData = snapshot.docs[0].data();
           if (planData.email != req.query.email) {
             res.status(403).json({success: false});
             return;

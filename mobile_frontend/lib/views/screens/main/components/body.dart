@@ -16,7 +16,7 @@ class _BodyState extends State<Body> {
   CalendarController _calendarController;
 
   Widget getInfo(SelectedPlan selectedPlan) {
-    Selection selection = selectedPlan.selectedPlan;
+    Selection selection = selectedPlan.planType;
     if (selection == Selection.none) {
       return NoPlanSelectedInfo();
     } else if (selection == Selection.restaurant) {
