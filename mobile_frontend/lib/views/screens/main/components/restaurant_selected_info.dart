@@ -44,8 +44,8 @@ class RestaurantSelectedInfo extends StatelessWidget {
         ),
         RoundedButton(
           text: 'CANCEL AND EDIT THE PLAN',
-          onPressed: () {
-            Provider.of<UserPlan>(context, listen: false)
+          onPressed: () async {
+            await Provider.of<UserPlan>(context, listen: false)
                 .updatePlan(date, user, SelectedPlan(planType: Selection.none));
           },
         ),

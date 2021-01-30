@@ -131,9 +131,11 @@ class _BodyState extends State<Body> {
                   getSelectedPlan(Provider.of<UserPlan>(context), selectedDate),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Text("Loading");
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
                 } else if (snapshot.hasError) {
-                  return Text("Error");
+                  return Text("Error retrieving data");
                 } else {
                   return getInfo(snapshot.data);
                 }

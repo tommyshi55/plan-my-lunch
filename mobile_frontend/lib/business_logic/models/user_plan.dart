@@ -13,7 +13,7 @@ import 'selection.dart';
 class UserPlan extends ChangeNotifier {
   Map<DateTime, SelectedPlan> cachedPlan = {};
 
-  void updatePlan(DateTime date, User user, SelectedPlan planToUpdate) async {
+  Future updatePlan(DateTime date, User user, SelectedPlan planToUpdate) async {
     String planType = "none";
     if (planToUpdate.planType == Selection.restaurant) {
       planType = "restaurant";
