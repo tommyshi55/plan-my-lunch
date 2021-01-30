@@ -1,15 +1,22 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mobile_frontend/business_logic/models/selected_plan.dart';
 import 'package:mobile_frontend/business_logic/models/selection.dart';
+import 'package:mobile_frontend/business_logic/models/user_plan.dart';
 import 'package:mobile_frontend/views/components/rounded_button.dart';
 import 'package:mobile_frontend/views/constants.dart';
 import 'package:mobile_frontend/views/screens/search_restaurants/search_restaurant_screen.dart';
 import 'package:provider/provider.dart';
 
 class NoPlanSelectedInfo extends StatelessWidget {
+  final DateTime date;
+  final User user;
+
   const NoPlanSelectedInfo({
     Key key,
+    this.date,
+    this.user,
   }) : super(key: key);
 
   @override
@@ -46,8 +53,8 @@ class NoPlanSelectedInfo extends StatelessWidget {
           color: kPrimaryLightColor,
           textColor: Colors.black,
           onPressed: () {
-            Provider.of<SelectedPlan>(context, listen: false)
-                .updateSelectedPlan(Selection.leftover);
+            Provider.of<UserPlan>(context, listen: false).updatePlan(
+                date, user, SelectedPlan(planType: Selection.leftover));
           },
         ),
       ],

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:mobile_frontend/business_logic/models/selected_plan.dart';
 import 'package:mobile_frontend/business_logic/models/selection.dart';
 import 'package:mobile_frontend/business_logic/models/user_plan.dart';
-import 'package:mobile_frontend/business_logic/utils/util.dart';
 import 'package:mobile_frontend/views/screens/main/components/leftover_selected_info.dart';
 import 'package:mobile_frontend/views/screens/main/components/no_plan_selected_info.dart';
 import 'package:mobile_frontend/views/screens/main/components/restaurant_selected_info.dart';
@@ -27,7 +26,10 @@ class _BodyState extends State<Body> {
   Widget getInfo(SelectedPlan selectedPlan) {
     Selection selection = selectedPlan.planType;
     if (selection == Selection.none) {
-      return NoPlanSelectedInfo();
+      return NoPlanSelectedInfo(
+        date: selectedDate,
+        user: loggedInUser,
+      );
     } else if (selection == Selection.restaurant) {
       return RestaurantSelectedInfo(
         restaurant: selectedPlan.selectedRestaurant,

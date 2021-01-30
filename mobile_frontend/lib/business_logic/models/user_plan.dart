@@ -21,14 +21,15 @@ class UserPlan extends ChangeNotifier {
       planType = "leftover";
     }
 
-    var body = {
-      "userId": user.uid,
+    print(user.uid);
+    Map<String, dynamic> body = {
+      "id": user.uid,
       "planType": planType,
-      "planDetail": planType == "restaurant"
-          ? planToUpdate.selectedRestaurant.toJson()
-          : {},
       "date": convertDateTimeDisplay(date)
     };
+    if (planType == "restaurant") {
+      body['planDetail'] = planToUpdate.selectedRestaurant.toJson();
+    }
 
     var uri =
         Uri.https("us-central1-balmy-mark-301202.cloudfunctions.net", "plans");

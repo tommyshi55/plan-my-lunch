@@ -67,9 +67,11 @@ exports.plans = functions.https.onRequest((req, res) => {
     const userId = req.body.id;
     if (userId !== undefined) {
       let addedPlan = {
-        planType: req.body.planType,
-        planDetail: req.body.planDetail
+        planType: req.body.planType
       };
+      if (req.body.planDetail) {
+        addedPlan['planDetail'] = req.body.planDetail
+      }
       const date = req.body.date;
 
       admin
@@ -81,6 +83,9 @@ exports.plans = functions.https.onRequest((req, res) => {
         })
         .then((result) => {
           res.status(200).json({success: true});
+        })
+        .catch(err => {
+          res.status(500).json({success: false});
         });
 
       return;
