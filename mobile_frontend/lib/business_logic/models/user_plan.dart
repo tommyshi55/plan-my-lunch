@@ -12,7 +12,34 @@ import 'selection.dart';
 class UserPlan extends ChangeNotifier {
   Map<DateTime, SelectedPlan> cachedPlan = {};
 
-  void updatePlan(DateTime date, SelectedPlan planToUpdate) async {
+  void updatePlan(DateTime date, User user, SelectedPlan planToUpdate) async {
+    String planType = "none";
+    if (planToUpdate.planType == Selection.restaurant) {
+      planType = "restaurant";
+    } else if (planToUpdate.planType == Selection.leftover) {
+      planType = "leftover";
+    }
+
+    var body = {
+      "userId": user.uid,
+      "planType": planType,
+      "planDetail": planType == "restaurant"
+          ? planToUpdate.selectedRestaurant.toJson()
+          : {},
+      "date": date.toString()
+    };
+
+    var uri =
+        Uri.https("us-central1-balmy-mark-301202.cloudfunctions.net", "plans");
+
+    var response = await http.post(uri, body: body);
+    final responseJson = jsonDecode(response.body);
+    if (!responseJson["success"]) {
+      throw Exception("Error updating plan");
+    }
+
+    cachedPlan[date] = planToUpdate;
+
     notifyListeners();
   }
 
@@ -34,6 +61,7 @@ class UserPlan extends ChangeNotifier {
     Restaurant restaurant;
     if (responseJson['planType'] == "restaurant") {
       planType = Selection.restaurant;
+      restaurant = Restaurant.fromJson(responseJson['planDetail']);
     } else if (responseJson['planType'] == "leftover") {
       planType = Selection.leftover;
     }
