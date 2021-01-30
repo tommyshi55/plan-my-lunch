@@ -43,31 +43,25 @@ exports.searchRestaurants = functions.https.onRequest((req, res) => {
 
 exports.plans = functions.https.onRequest((req, res) => {
   if (req.method === 'GET') {
-    if (req.headers.authorization) {
-      admin
-        .firestore()
-        .collection('users')
-        .where('email', '==', req.query.email)
-        .get()
-        .then((snapshot) => {
-          let planData = snapshot.docs[0].data();
-          if (planData.email != req.query.email) {
-            res.status(403).json({success: false});
-            return;
-          }
-          delete planData.email;
-          if (req.query.date === undefined) {
-            res.status(200).json({success: true, ...planData});
-            return;
-          }
-          const planOnDate = planData[req.query.date];
-          res.status(200).json({success: true, ...planOnDate});
-        })
-      
-      return;
-    }
-
-    res.status(401).json({success: false});
+    admin
+      .firestore()
+      .collection('users')
+      .where('email', '==', req.query.email)
+      .get()
+      .then((snapshot) => {
+        let planData = snapshot.docs[0].data();
+        if (planData.email != req.query.email) {
+          res.status(403).json({success: false});
+          return;
+        }
+        delete planData.email;
+        if (req.query.date === undefined) {
+          res.status(200).json({success: true, ...planData});
+          return;
+        }
+        const planOnDate = planData[req.query.date];
+        res.status(200).json({success: true, ...planOnDate});
+      })
     return;
   } else if (req.method === 'POST') {
     const userId = req.body.id;

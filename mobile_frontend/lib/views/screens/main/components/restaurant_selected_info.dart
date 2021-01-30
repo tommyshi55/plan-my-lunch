@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_frontend/business_logic/models/restaurant.dart';
 import 'package:mobile_frontend/business_logic/models/selected_plan.dart';
 import 'package:mobile_frontend/business_logic/models/selection.dart';
+import 'package:mobile_frontend/business_logic/models/user_plan.dart';
 import 'package:mobile_frontend/views/components/rounded_button.dart';
 import 'package:mobile_frontend/views/constants.dart';
 import 'package:mobile_frontend/views/screens/search_restaurants/components/restaurant_card.dart';
@@ -9,8 +11,11 @@ import 'package:provider/provider.dart';
 
 class RestaurantSelectedInfo extends StatelessWidget {
   final Restaurant restaurant;
+  final DateTime date;
+  final User user;
 
-  const RestaurantSelectedInfo({Key key, this.restaurant}) : super(key: key);
+  const RestaurantSelectedInfo({Key key, this.restaurant, this.date, this.user})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +45,8 @@ class RestaurantSelectedInfo extends StatelessWidget {
         RoundedButton(
           text: 'CANCEL AND EDIT THE PLAN',
           onPressed: () {
-            Provider.of<SelectedPlan>(context, listen: false)
-                .updateSelectedPlan(Selection.none);
+            Provider.of<UserPlan>(context, listen: false)
+                .updatePlan(date, user, SelectedPlan(planType: Selection.none));
           },
         ),
       ],

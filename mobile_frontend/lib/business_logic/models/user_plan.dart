@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_frontend/business_logic/utils/util.dart';
 
 import 'restaurant.dart';
 import 'selected_plan.dart';
@@ -26,7 +27,7 @@ class UserPlan extends ChangeNotifier {
       "planDetail": planType == "restaurant"
           ? planToUpdate.selectedRestaurant.toJson()
           : {},
-      "date": date.toString()
+      "date": convertDateTimeDisplay(date)
     };
 
     var uri =
@@ -49,11 +50,11 @@ class UserPlan extends ChangeNotifier {
     }
 
     // get plan from database via http
-    var queries = {"email": user.email};
+    var queries = {"email": user.email, "date": convertDateTimeDisplay(date)};
     var uri = Uri.https(
         "us-central1-balmy-mark-301202.cloudfunctions.net", "plans", queries);
     var response = await http.get(uri, headers: {
-      HttpHeaders.authorizationHeader: "Basic ${user.uid}",
+      HttpHeaders.authorizationHeader: "Bearer ${user.uid}",
     });
 
     final responseJson = jsonDecode(response.body);

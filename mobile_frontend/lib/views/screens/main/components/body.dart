@@ -1,11 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_frontend/business_logic/models/selected_plan.dart';
 import 'package:mobile_frontend/business_logic/models/selection.dart';
+import 'package:mobile_frontend/business_logic/models/user_plan.dart';
+import 'package:mobile_frontend/business_logic/utils/util.dart';
 import 'package:mobile_frontend/views/screens/main/components/leftover_selected_info.dart';
 import 'package:mobile_frontend/views/screens/main/components/no_plan_selected_info.dart';
 import 'package:mobile_frontend/views/screens/main/components/restaurant_selected_info.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
+
+import '../../../../business_logic/models/selected_plan.dart';
+
+User loggedInUser;
 
 class Body extends StatefulWidget {
   @override
@@ -13,7 +20,9 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  final _auth = FirebaseAuth.instance;
   CalendarController _calendarController;
+  DateTime selectedDate = DateTime.now();
 
   Widget getInfo(SelectedPlan selectedPlan) {
     Selection selection = selectedPlan.planType;
@@ -22,16 +31,36 @@ class _BodyState extends State<Body> {
     } else if (selection == Selection.restaurant) {
       return RestaurantSelectedInfo(
         restaurant: selectedPlan.selectedRestaurant,
+        date: selectedDate,
+        user: loggedInUser,
       );
     } else {
-      return LeftoverSelectedInfo();
+      return LeftoverSelectedInfo(
+        date: selectedDate,
+        user: loggedInUser,
+      );
     }
+  }
+
+  Future<SelectedPlan> getSelectedPlan(UserPlan userPlan, date) async {
+    print(date);
+    SelectedPlan selectedPlan = await userPlan.getPlan(date, loggedInUser);
+    return selectedPlan;
   }
 
   @override
   void initState() {
     super.initState();
+
     _calendarController = CalendarController();
+    try {
+      final user = _auth.currentUser;
+      if (user != null) {
+        loggedInUser = user;
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -49,6 +78,11 @@ class _BodyState extends State<Body> {
           calendarController: _calendarController,
           initialCalendarFormat: CalendarFormat.week,
           formatAnimation: FormatAnimation.slide,
+          onDaySelected: (date, events, holidays) {
+            setState(() {
+              selectedDate = date;
+            });
+          },
           headerStyle: HeaderStyle(
             centerHeaderTitle: true,
             formatButtonVisible: false,
@@ -90,7 +124,19 @@ class _BodyState extends State<Body> {
                   topRight: Radius.circular(40.0)),
               color: Colors.white,
             ),
-            child: getInfo(Provider.of<SelectedPlan>(context)),
+            child: FutureBuilder(
+              future:
+                  getSelectedPlan(Provider.of<UserPlan>(context), selectedDate),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Text("Loading");
+                } else if (snapshot.hasError) {
+                  return Text("Error");
+                } else {
+                  return getInfo(snapshot.data);
+                }
+              },
+            ),
           ),
         ),
       ],

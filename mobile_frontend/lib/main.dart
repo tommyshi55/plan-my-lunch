@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:mobile_frontend/business_logic/models/user_plan.dart';
 import 'package:mobile_frontend/views/constants.dart';
 import 'package:mobile_frontend/views/screens/login/login_screen.dart';
 import 'package:mobile_frontend/views/screens/main/main_screen.dart';
@@ -7,8 +8,6 @@ import 'package:mobile_frontend/views/screens/search_restaurants/search_restaura
 import 'package:mobile_frontend/views/screens/signup/sign_up_screen.dart';
 import 'package:mobile_frontend/views/screens/welcome/welcome_screen.dart';
 import 'package:provider/provider.dart';
-
-import 'business_logic/models/selected_plan.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => SelectedPlan(),
+      create: (context) => UserPlan(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
