@@ -30,7 +30,7 @@ class Restaurant {
         address = json['address'],
         locality = json['locality'],
         rating = json['rating'],
-        reviews = json['reviews'],
+        reviews = int.parse(json['reviews']),
         thumbnail = json['thumbnail'],
         url = json['url'];
 }

@@ -28,7 +28,8 @@ class UserPlan extends ChangeNotifier {
       "date": convertDateTimeDisplay(date)
     };
     if (planType == "restaurant") {
-      body['planDetail'] = planToUpdate.selectedRestaurant.toJson();
+      body['planDetail'] =
+          json.encode(planToUpdate.selectedRestaurant.toJson());
     }
 
     var uri =
@@ -63,7 +64,8 @@ class UserPlan extends ChangeNotifier {
     Restaurant restaurant;
     if (responseJson['planType'] == "restaurant") {
       planType = Selection.restaurant;
-      restaurant = Restaurant.fromJson(responseJson['planDetail']);
+      var restaurantJson = jsonDecode(responseJson['planDetail']);
+      restaurant = Restaurant.fromJson(restaurantJson);
     } else if (responseJson['planType'] == "leftover") {
       planType = Selection.leftover;
     }

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:mobile_frontend/business_logic/models/restaurant.dart';
@@ -6,11 +7,15 @@ import 'package:mobile_frontend/views/screens/search_restaurants/components/rest
 class RestaurantCard extends StatelessWidget {
   final Restaurant restaurant;
   final bool isInSearchResult;
+  final User user;
+  final DateTime date;
 
-  const RestaurantCard({
+  RestaurantCard({
     Key key,
     this.restaurant,
     this.isInSearchResult = true,
+    this.user,
+    this.date,
   }) : super(key: key);
 
   @override
@@ -27,6 +32,8 @@ class RestaurantCard extends StatelessWidget {
                 child: RestaurantActionModal(
                   restaurant: restaurant,
                   displayAddButton: isInSearchResult,
+                  date: date,
+                  user: user,
                 ),
               );
             });

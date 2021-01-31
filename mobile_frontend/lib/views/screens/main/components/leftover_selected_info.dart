@@ -13,7 +13,7 @@ class LeftoverSelectedInfo extends StatefulWidget {
   final DateTime date;
   final User user;
 
-  const LeftoverSelectedInfo({Key key, this.date, this.user}) : super(key: key);
+  LeftoverSelectedInfo({Key key, this.date, this.user}) : super(key: key);
 
   @override
   _LeftoverSelectedInfoState createState() => _LeftoverSelectedInfoState();

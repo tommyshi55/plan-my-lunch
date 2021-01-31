@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mobile_frontend/business_logic/services/place_service.dart';
@@ -11,6 +12,11 @@ import 'package:uuid/uuid.dart';
 import '../../../constants.dart';
 
 class Body extends StatefulWidget {
+  final DateTime date;
+  final User user;
+
+  Body({Key key, this.date, this.user}) : super(key: key);
+
   @override
   _BodyState createState() => _BodyState();
 }
@@ -107,8 +113,11 @@ class _BodyState extends State<Body> {
                       return Expanded(
                         child: ListView(
                           children: snapshot.data
-                              .map<Widget>((restaurant) =>
-                                  RestaurantCard(restaurant: restaurant))
+                              .map<Widget>((restaurant) => RestaurantCard(
+                                    restaurant: restaurant,
+                                    date: widget.date,
+                                    user: widget.user,
+                                  ))
                               .toList(),
                         ),
                       );
