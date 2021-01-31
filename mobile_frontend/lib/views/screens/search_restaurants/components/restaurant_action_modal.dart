@@ -37,6 +37,7 @@ class _RestaurantActionModalState extends State<RestaurantActionModal> {
     return ModalProgressHUD(
       inAsyncCall: loading,
       child: Container(
+        constraints: BoxConstraints.expand(),
         color: Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
