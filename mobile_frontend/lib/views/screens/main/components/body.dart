@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_frontend/business_logic/models/selected_plan.dart';
 import 'package:mobile_frontend/business_logic/models/selection.dart';
 import 'package:mobile_frontend/business_logic/models/user_plan.dart';
+import 'package:mobile_frontend/views/screens/main/components/error_info.dart';
 import 'package:mobile_frontend/views/screens/main/components/leftover_selected_info.dart';
 import 'package:mobile_frontend/views/screens/main/components/no_plan_selected_info.dart';
 import 'package:mobile_frontend/views/screens/main/components/restaurant_selected_info.dart';
@@ -135,7 +136,11 @@ class _BodyState extends State<Body> {
                     child: CircularProgressIndicator(),
                   );
                 } else if (snapshot.hasError) {
-                  return Text("Error retrieving data");
+                  return ErrorInfo(
+                    reload: () {
+                      setState(() {});
+                    },
+                  );
                 } else {
                   return getInfo(snapshot.data);
                 }
