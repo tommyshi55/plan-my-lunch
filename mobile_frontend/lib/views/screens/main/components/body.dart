@@ -8,6 +8,7 @@ import 'package:mobile_frontend/views/screens/main/components/leftover_selected_
 import 'package:mobile_frontend/views/screens/main/components/no_plan_selected_info.dart';
 import 'package:mobile_frontend/views/screens/main/components/restaurant_selected_info.dart';
 import 'package:mobile_frontend/views/screens/main/components/saturday_info.dart';
+import 'package:mobile_frontend/views/screens/main/components/sunday_info.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -30,7 +31,7 @@ class _BodyState extends State<Body> {
     if (selectedPlan.isSaturday) {
       return SaturdayInfo();
     } else if (selectedPlan.isSunday) {
-      return SaturdayInfo();
+      return SundayInfo();
     } else if (selection == Selection.none) {
       return NoPlanSelectedInfo(
         date: selectedDate,
