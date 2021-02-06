@@ -11,14 +11,21 @@ import 'package:mobile_frontend/views/screens/search_restaurants/search_restaura
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
 
+const String textIfAlreadyPassed =
+    "You didn't have any lunch plan for this day.";
+const String textForFuture =
+    "You don't have any lunch plan for this day. Make your plan now!";
+
 class NoPlanSelectedInfo extends StatefulWidget {
   final DateTime date;
   final User user;
+  final bool isDatePassed;
 
   const NoPlanSelectedInfo({
     Key key,
     this.date,
     this.user,
+    this.isDatePassed,
   }) : super(key: key);
 
   @override
@@ -46,7 +53,7 @@ class _NoPlanSelectedInfoState extends State<NoPlanSelectedInfo> {
             height: size.height * 0.03,
           ),
           Text(
-            "You don't have any lunch plan for this day. Make your plan now!",
+            widget.isDatePassed ? textIfAlreadyPassed : textForFuture,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: kPrimaryColor,
@@ -56,33 +63,36 @@ class _NoPlanSelectedInfoState extends State<NoPlanSelectedInfo> {
           SizedBox(
             height: size.height * 0.05,
           ),
-          RoundedButton(
-            text: 'SEARCH RESTAURANT',
-            onPressed: () {
-              Navigator.pushNamed(context, SearchRestaurantScreen.id,
-                  arguments: UserAndDate(widget.date, widget.user));
-            },
-          ),
-          RoundedButton(
-            text: 'LEFTOVER FROM DINNER',
-            color: kPrimaryLightColor,
-            textColor: Colors.black,
-            onPressed: () async {
-              try {
-                setState(() {
-                  loading = true;
-                });
-                await Provider.of<UserPlan>(context, listen: false).updatePlan(
-                    widget.date,
-                    widget.user,
-                    SelectedPlan(planType: Selection.leftover));
-              } finally {
-                setState(() {
-                  loading = false;
-                });
-              }
-            },
-          ),
+          widget.isDatePassed
+              ? Container()
+              : RoundedButton(
+                  text: 'SEARCH RESTAURANT',
+                  onPressed: () {
+                    Navigator.pushNamed(context, SearchRestaurantScreen.id,
+                        arguments: UserAndDate(widget.date, widget.user));
+                  },
+                ),
+          widget.isDatePassed
+              ? Container()
+              : RoundedButton(
+                  text: 'LEFTOVER FROM DINNER',
+                  color: kPrimaryLightColor,
+                  textColor: Colors.black,
+                  onPressed: () async {
+                    try {
+                      setState(() {
+                        loading = true;
+                      });
+                      await Provider.of<UserPlan>(context, listen: false)
+                          .updatePlan(widget.date, widget.user,
+                              SelectedPlan(planType: Selection.leftover));
+                    } finally {
+                      setState(() {
+                        loading = false;
+                      });
+                    }
+                  },
+                ),
         ],
       ),
     );

@@ -28,6 +28,7 @@ class _BodyState extends State<Body> {
 
   Widget getInfo(SelectedPlan selectedPlan) {
     Selection selection = selectedPlan.planType;
+    bool dateHasPassed = selectedDate.isBefore(DateTime.now());
     if (selectedPlan.isSaturday) {
       return SaturdayInfo();
     } else if (selectedPlan.isSunday) {
@@ -36,6 +37,7 @@ class _BodyState extends State<Body> {
       return NoPlanSelectedInfo(
         date: selectedDate,
         user: loggedInUser,
+        isDatePassed: dateHasPassed,
       );
     } else if (selection == Selection.restaurant) {
       return RestaurantSelectedInfo(
