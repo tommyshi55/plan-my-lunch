@@ -44,11 +44,13 @@ class _BodyState extends State<Body> {
         restaurant: selectedPlan.selectedRestaurant,
         date: selectedDate,
         user: loggedInUser,
+        isDatePassed: dateHasPassed,
       );
     } else {
       return LeftoverSelectedInfo(
         date: selectedDate,
         user: loggedInUser,
+        isDatePassed: dateHasPassed,
       );
     }
   }

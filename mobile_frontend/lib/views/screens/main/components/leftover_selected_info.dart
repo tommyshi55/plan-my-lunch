@@ -9,11 +9,22 @@ import 'package:mobile_frontend/views/constants.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
 
+const String textIfAlreadyPassed =
+    "On this day, you had the leftover from the night before. Wish it was still delicious!";
+const String textForFuture =
+    "You are going to have the leftover from the night before. Remember to pack your lunch!";
+
 class LeftoverSelectedInfo extends StatefulWidget {
   final DateTime date;
   final User user;
+  final bool isDatePassed;
 
-  LeftoverSelectedInfo({Key key, this.date, this.user}) : super(key: key);
+  LeftoverSelectedInfo({
+    Key key,
+    this.date,
+    this.user,
+    this.isDatePassed,
+  }) : super(key: key);
 
   @override
   _LeftoverSelectedInfoState createState() => _LeftoverSelectedInfoState();
@@ -35,7 +46,7 @@ class _LeftoverSelectedInfoState extends State<LeftoverSelectedInfo> {
             height: size.height * 0.35,
           ),
           Text(
-            'You are going to have the leftover from the night before. Remember to pack your lunch!',
+            widget.isDatePassed ? textIfAlreadyPassed : textForFuture,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: kPrimaryColor,
@@ -45,24 +56,25 @@ class _LeftoverSelectedInfoState extends State<LeftoverSelectedInfo> {
           SizedBox(
             height: size.height * 0.04,
           ),
-          RoundedButton(
-            text: 'CANCEL AND EDIT THE PLAN',
-            onPressed: () async {
-              try {
-                setState(() {
-                  loading = true;
-                });
-                await Provider.of<UserPlan>(context, listen: false).updatePlan(
-                    widget.date,
-                    widget.user,
-                    SelectedPlan(planType: Selection.none));
-              } finally {
-                setState(() {
-                  loading = false;
-                });
-              }
-            },
-          ),
+          widget.isDatePassed
+              ? Container()
+              : RoundedButton(
+                  text: 'CANCEL AND EDIT THE PLAN',
+                  onPressed: () async {
+                    try {
+                      setState(() {
+                        loading = true;
+                      });
+                      await Provider.of<UserPlan>(context, listen: false)
+                          .updatePlan(widget.date, widget.user,
+                              SelectedPlan(planType: Selection.none));
+                    } finally {
+                      setState(() {
+                        loading = false;
+                      });
+                    }
+                  },
+                ),
         ],
       ),
     );
