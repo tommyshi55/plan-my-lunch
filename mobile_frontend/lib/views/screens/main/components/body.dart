@@ -7,6 +7,7 @@ import 'package:mobile_frontend/views/screens/main/components/error_info.dart';
 import 'package:mobile_frontend/views/screens/main/components/leftover_selected_info.dart';
 import 'package:mobile_frontend/views/screens/main/components/no_plan_selected_info.dart';
 import 'package:mobile_frontend/views/screens/main/components/restaurant_selected_info.dart';
+import 'package:mobile_frontend/views/screens/main/components/saturday_info.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -26,7 +27,11 @@ class _BodyState extends State<Body> {
 
   Widget getInfo(SelectedPlan selectedPlan) {
     Selection selection = selectedPlan.planType;
-    if (selection == Selection.none) {
+    if (selectedPlan.isSaturday) {
+      return SaturdayInfo();
+    } else if (selectedPlan.isSunday) {
+      return SaturdayInfo();
+    } else if (selection == Selection.none) {
       return NoPlanSelectedInfo(
         date: selectedDate,
         user: loggedInUser,

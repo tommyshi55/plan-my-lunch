@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:mobile_frontend/business_logic/utils/util.dart';
 
 import 'restaurant.dart';
@@ -47,6 +48,18 @@ class UserPlan extends ChangeNotifier {
   }
 
   Future<SelectedPlan> getPlan(DateTime date, User user) async {
+    print(DateFormat('EEEE').format(date));
+    String dayOfWeek = DateFormat('EEEE').format(date);
+    if (dayOfWeek == 'Saturday') {
+      SelectedPlan selectedPlan = SelectedPlan();
+      selectedPlan.isSaturday = true;
+      return selectedPlan;
+    }
+    if (dayOfWeek == 'Sunday') {
+      SelectedPlan selectedPlan = SelectedPlan();
+      selectedPlan.isSunday = true;
+      return selectedPlan;
+    }
     if (cachedPlan.containsKey(date)) {
       return cachedPlan[date];
     }
