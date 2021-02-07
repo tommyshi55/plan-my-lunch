@@ -7,6 +7,8 @@ import 'package:mobile_frontend/views/components/rounded_button.dart';
 import 'package:mobile_frontend/views/components/rounded_input_field.dart';
 import 'package:mobile_frontend/views/components/rounded_password_field.dart';
 import 'package:mobile_frontend/views/screens/main/main_screen.dart';
+import 'package:mobile_frontend/views/screens/login/components/or_divider.dart';
+import 'package:mobile_frontend/views/screens/login/components/social_icon.dart';
 import 'package:mobile_frontend/views/screens/signup/sign_up_screen.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
@@ -77,6 +79,20 @@ class _BodyState extends State<Body> {
                 Navigator.pushNamed(context, SignUpScreen.id);
               },
             ),
+            OrDivider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SocialIcon(
+                  iconSrc: 'assets/icons/facebook.svg',
+                  onPressed: () {},
+                ),
+                SocialIcon(
+                  iconSrc: 'assets/icons/google-plus.svg',
+                  onPressed: () {},
+                ),
+              ],
+            )
           ],
         ),
       ),
