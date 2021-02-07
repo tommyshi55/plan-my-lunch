@@ -11,6 +11,7 @@ import 'package:mobile_frontend/views/screens/login/components/or_divider.dart';
 import 'package:mobile_frontend/views/screens/login/components/social_icon.dart';
 import 'package:mobile_frontend/views/screens/signup/sign_up_screen.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -19,6 +20,7 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   final _auth = FirebaseAuth.instance;
+  final GoogleSignIn googleSignIn = GoogleSignIn();
   bool showSpinner = false;
   String email;
   String password;
@@ -89,7 +91,41 @@ class _BodyState extends State<Body> {
                 ),
                 SocialIcon(
                   iconSrc: 'assets/icons/google-plus.svg',
-                  onPressed: () {},
+                  onPressed: () async {
+                    try {
+                      setState(() {
+                        showSpinner = true;
+                      });
+
+                      final GoogleSignInAccount googleSignInAccount =
+                          await googleSignIn.signIn();
+                      final GoogleSignInAuthentication
+                          googleSignInAuthentication =
+                          await googleSignInAccount.authentication;
+
+                      final AuthCredential credential =
+                          GoogleAuthProvider.credential(
+                        accessToken: googleSignInAuthentication.accessToken,
+                        idToken: googleSignInAuthentication.idToken,
+                      );
+
+                      final UserCredential authResult =
+                          await _auth.signInWithCredential(credential);
+                      final User user = authResult.user;
+
+                      if (user != null) {
+                        print("Google sign in successful");
+                        Navigator.pushNamed(context, MainScreen.id);
+                      }
+                    } catch (e) {
+                      // TODO: Show error message
+                      print(e);
+                    } finally {
+                      setState(() {
+                        showSpinner = false;
+                      });
+                    }
+                  },
                 ),
               ],
             )
